@@ -37,3 +37,15 @@ def test_handy_environment_get_uri():
     uri.password.should.equal('passwd!!')
     uri.path.should.equal('/yipit/handy')
     uri.relative_path.should.equal('yipit/handy')
+
+
+def test_handy_environment_get_uri_returning_none():
+    # Given that I have an empty environment
+    env = Environment()
+
+    # When I try to get a uri variable that doesn't exist, then I get None
+    env.get_uri('blah').should.be.none
+
+    # And When I try to get a variable that doesn't exist but I provide a
+    # default value, it will be returned instead of none
+    env.get_uri('blah', 'http://yipit.com').host.should.equal('yipit.com')
