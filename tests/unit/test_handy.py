@@ -1,21 +1,21 @@
+import os
 from handy import Environment
 
 
 def test_handy_environment_set():
     # Given that I have an empty environment
     env = Environment()
-    env.items().should.equal([])
 
     # When I set something
     env.set('myvar', 'myvalue')
 
     # I'll be able to get it properly
-    env.items().should.equal([('myvar', 'myvalue')])
+    env.items().should.contain(('myvar', 'myvalue'))
 
 
 def test_handy_environment_get():
     # Given that I have an environment
-    env = Environment(val1='yo')
+    env = Environment({'val1': 'yo'})
 
     # When I set something
     env.get('val1').should.equal('yo')
@@ -49,3 +49,14 @@ def test_handy_environment_get_uri_returning_none():
     # And When I try to get a variable that doesn't exist but I provide a
     # default value, it will be returned instead of none
     env.get_uri('blah', 'http://yipit.com').host.should.equal('yipit.com')
+
+
+def test_handy_with_a_real_environment():
+    # Given that I have an environment
+    env = Environment()
+
+    # When I set a variable in that environment
+    env.set('yo-dawg', 'I heard you like variables')
+
+    # Then I see that it was set in the actual environment
+    os.environ.get('yo-dawg').should.equal('I heard you like variables')
