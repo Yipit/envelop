@@ -1,8 +1,8 @@
 import os
-from handy import Environment
+from envparse import Environment
 
 
-def test_handy_environment_set():
+def test_envparse_environment_set():
     # Given that I have an empty environment
     env = Environment()
 
@@ -13,7 +13,7 @@ def test_handy_environment_set():
     env.items().should.contain(('myvar', 'myvalue'))
 
 
-def test_handy_environment_get():
+def test_envparse_environment_get():
     # Given that I have an environment
     env = Environment({'val1': 'yo'})
 
@@ -21,10 +21,10 @@ def test_handy_environment_get():
     env.get('val1').should.equal('yo')
 
 
-def test_handy_environment_get_uri():
+def test_envparse_environment_get_uri():
     # Given that I have an environment with a variable containing a uri
     env = Environment()
-    env.set('githubpage', 'https://clarete:passwd!!@github.com/yipit/handy')
+    env.set('githubpage', 'https://clarete:passwd!!@github.com/yipit/envparse')
 
     # When I try to get the value as a Uri
     uri = env.get_uri('githubpage')
@@ -35,11 +35,11 @@ def test_handy_environment_get_uri():
     uri.port.should.equal(None)
     uri.user.should.equal('clarete')
     uri.password.should.equal('passwd!!')
-    uri.path.should.equal('/yipit/handy')
-    uri.relative_path.should.equal('yipit/handy')
+    uri.path.should.equal('/yipit/envparse')
+    uri.relative_path.should.equal('yipit/envparse')
 
 
-def test_handy_environment_get_uri_returning_none():
+def test_envparse_environment_get_uri_returning_none():
     # Given that I have an empty environment
     env = Environment()
 
@@ -51,7 +51,7 @@ def test_handy_environment_get_uri_returning_none():
     env.get_uri('blah', 'http://yipit.com').host.should.equal('yipit.com')
 
 
-def test_handy_with_a_real_environment():
+def test_envparse_with_a_real_environment():
     # Given that I have an environment
     env = Environment()
 

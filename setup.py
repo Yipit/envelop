@@ -40,7 +40,7 @@ install_requires, dependency_links = parse_requirements()
 
 if __name__ == '__main__':
     setup(
-        name='handy',
+        name='envparse',
         version='0.0.1',
         description="A helping hand to help you to organize your settings",
         long_description=local_file('README.md'),

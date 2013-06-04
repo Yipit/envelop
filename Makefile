@@ -5,7 +5,7 @@
 # are going to be used to update this file automatically.
 #
 # <variables>
-PACKAGE=handy
+PACKAGE=envparse
 CUSTOM_PIP_INDEX=localshop
 # </variables>
 
