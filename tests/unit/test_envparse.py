@@ -66,6 +66,39 @@ def test_envparse_with_a_real_environment():
     os.environ.get('yo-dawg').should.equal('I heard you like variables')
 
 
+def test_envparse_helper_methods():
+    # Given that I have an environment with some variables set
+    data = {
+        'str': 'I heard you like variables',
+        'int': '42',
+        'float': '3.14',
+        'bool0': 'True',
+        'bool1': 'true',
+        'bool2': '1',
+        'bool3': '2',
+        'bool4': 'False',
+        'bool5': 'false',
+        'bool6': '0',
+    }
+    env = Environment(storage=data)
+
+    # Let's retrieve things with their correct types
+    env.get_int('int').should.equal(42)
+    env.get_float('float').should.equal(3.14)
+    env.get_bool('bool0').should.be.true
+    env.get_bool('bool1').should.be.true
+    env.get_bool('bool2').should.be.true
+    env.get_bool('bool3').should.be.true
+    env.get_bool('bool4').should.be.false
+    env.get_bool('bool5').should.be.false
+    env.get_bool('bool6').should.be.false
+
+    # Sanity checks
+    env.get_int.when.called_with('str').should.throw(ValueError)
+    env.get_float.when.called_with('str').should.throw(ValueError)
+    env.get_bool('str').should.be.false
+
+
 @patch('envparse.io')
 def test_envparse_environment_from_file(_io):
     # Given that I load variables to my environment from a file

@@ -17,11 +17,24 @@ class Environment(object):
     def items(self):
         return self.storage.items()
 
+    def set(self, name, val):
+        self.storage[name] = val
+
     def get(self, name):
         return self.storage.get(name)
 
-    def set(self, name, val):
-        self.storage[name] = val
+    def get_int(self, name):
+        return int(self.get(name))
+
+    def get_float(self, name):
+        return float(self.get(name))
+
+    def get_bool(self, name):
+        val = self.get(name).lower()
+        try:
+            return bool(int(val))
+        except ValueError:
+            return val == 'true'
 
     def get_uri(self, name, default=None):
         uri = self.storage.get(name, default)
