@@ -1,0 +1,16 @@
+project:
+  name: "Envparse"
+  version: 0.2.13
+  description: A markdown-based automatic documentation generator
+
+  github_maintainer: clarete
+  github_maintainer_url: http://github.com/Yipit
+  github_maintainer_gravatar: https://secure.gravatar.com/avatar/71d3153d7509755e2f6453580e9acde3?s=420
+
+  github_url: http://github.com/Yipit/envparse
+  github_fork_url: https://github.com/Yipit/envparse/archive/master.tar.gz
+  tarball_download_url: https://github.com/Yipit/envparse/archive/master.tar.gz
+  zipball_download_url: https://github.com/Yipit/envparse/archive/master.zip
+
+documentation:
+  index: README.md
