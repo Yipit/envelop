@@ -42,7 +42,9 @@ if __name__ == '__main__':
     setup(
         name='envparse',
         version='0.0.1',
-        description="A helping hand to help you to organize your settings",
+        description=(
+            "A helping hand to manage your settings among "
+            "different environments"),
         long_description=local_file('README.md'),
         author=u'Lincoln de Sousa',
         author_email=u'lincoln@yipit.com',
