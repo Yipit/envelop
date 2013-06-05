@@ -58,7 +58,7 @@ updatedoc:
 	@steadymark && \
 	git branch -D gh-pages && \
 	git checkout --orphan gh-pages && \
-	markment -o . -t midnight --sitemap-for="http://yipit.github.io/envparse" && \
+	markment -o . -t modernist --sitemap-for="http://yipit.github.io/envparse" && \
 	git add . && \
 	git commit -am 'documentation' &>/dev/null && \
 	git push --force origin gh-pages && \
