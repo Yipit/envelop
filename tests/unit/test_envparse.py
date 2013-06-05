@@ -1,4 +1,8 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+import io
 import os
+from mock import patch
 from envparse import Environment
 
 
@@ -60,3 +64,14 @@ def test_envparse_with_a_real_environment():
 
     # Then I see that it was set in the actual environment
     os.environ.get('yo-dawg').should.equal('I heard you like variables')
+
+
+@patch('envparse.io')
+def test_envparse_environment_from_file(_io):
+    # Given that I load variables to my environment from a file
+    _io.open.return_value = io.StringIO('FAVORITE_SUPER_HERO: Batman!')
+    env = Environment.from_file('myfile.cfg')
+
+    # When I try to find a variable defined in that file, then I see that it
+    # works
+    env.get('FAVORITE_SUPER_HERO').should.equal('Batman!')

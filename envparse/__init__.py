@@ -1,23 +1,30 @@
+import io
 import os
 import urlparse
+import yaml
 
 
 class Environment(object):
 
-    def __init__(self, base=None):
-        os.environ.update(base or {})
+    def __init__(self, base=None, storage=os.environ):
+        self.storage = storage
+        self.storage.update(base or {})
+
+    @classmethod
+    def from_file(cls, path):
+        return cls(storage=yaml.load(io.open(path)))
 
     def items(self):
-        return os.environ.items()
+        return self.storage.items()
 
     def get(self, name):
-        return os.environ.get(name)
+        return self.storage.get(name)
 
     def set(self, name, val):
-        os.environ[name] = val
+        self.storage[name] = val
 
     def get_uri(self, name, default=None):
-        uri = os.environ.get(name, default)
+        uri = self.storage.get(name, default)
         if not uri:
             return None
 
