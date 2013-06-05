@@ -20,17 +20,17 @@ class Environment(object):
     def set(self, name, val):
         self.storage[name] = val
 
-    def get(self, name):
-        return self.storage.get(name)
+    def get(self, name, failobj=None):
+        return self.storage.get(name, failobj)
 
-    def get_int(self, name):
-        return int(self.get(name))
+    def get_int(self, name, failobj=None):
+        return int(self.get(name, failobj))
 
-    def get_float(self, name):
-        return float(self.get(name))
+    def get_float(self, name, failobj=None):
+        return float(self.get(name, failobj))
 
-    def get_bool(self, name):
-        val = self.get(name).lower()
+    def get_bool(self, name, failobj=None):
+        val = str(self.get(name, failobj)).lower()
         try:
             return bool(int(val))
         except ValueError:

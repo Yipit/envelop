@@ -98,6 +98,12 @@ def test_envparse_helper_methods():
     env.get_float.when.called_with('str').should.throw(ValueError)
     env.get_bool('str').should.be.false
 
+    # Testing default values
+    env.get('i-dont-exist', 'blah').should.equal('blah')
+    env.get_int('i-dont-exist', 2).should.equal(2)
+    env.get_float('i-dont-exist', 2.5).should.equal(2.5)
+    env.get_bool('i-dont-exist', True).should.be.true
+
 
 @patch('envparse.io')
 def test_envparse_environment_from_file(_io):
