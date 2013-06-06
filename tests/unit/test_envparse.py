@@ -173,3 +173,21 @@ def test_envparse_environment_from_directory_set(_io):
 
     # Then I see that we always try to write the file
     _io.open.return_value.write.assert_called_once_with('NEW-YORK')
+
+
+@patch('envparse.io')
+@patch('envparse.os')
+def test_envparse_environment_from_directory_set(_os, _io):
+    # Given that I have a folder environment with an item `CITY`
+    env = Environment.from_folder('./path')
+    env.set('CITY', 'NEW-YORK')
+
+    # We need the path.join function over there, so we need to restore it
+    # manually
+    _os.path.join.side_effect = os.path.join
+
+    # When I remove that item
+    del env['CITY']
+
+    # Then I can see that the unlink function was called properly
+    _os.unlink.assert_called_once_with('./path/CITY')
