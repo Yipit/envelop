@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 import io
 import os
-from mock import patch
+from mock import patch, Mock
 from envparse import Environment
 
 
@@ -114,3 +114,62 @@ def test_envparse_environment_from_file(_io):
     # When I try to find a variable defined in that file, then I see that it
     # works
     env.get('FAVORITE_SUPER_HERO').should.equal('Batman!')
+
+
+@patch('envparse.io')
+@patch('envparse.os')
+def test_envparse_environment_from_directory_items(_os, _io):
+    # Given that I load variables to my env from a folder
+    env = Environment.from_folder(
+        os.path.join(os.path.dirname(__file__), './fixtures/env'))
+
+    _os.listdir.return_value = ['ENABLE_SOMETHING', 'PI', 'SERVER_URI']
+    _io.open.return_value.read.side_effect = [
+        '',
+        '3.14',
+        'smtp://user@mserver.com:passwd@mserver.com:25',
+    ]
+
+    # When I try to list all the variables inside of that folder
+    sorted(env.items(), key=lambda x: x[0]).should.equal([
+        ('ENABLE_SOMETHING', u''),
+        ('PI', u'3.14'),
+        ('SERVER_URI', u'smtp://user@mserver.com:passwd@mserver.com:25'),
+    ])
+
+
+@patch('envparse.io')
+@patch('envparse.os')
+def test_envparse_environment_from_directory_get(_os, _io):
+    # Given that I load variables to my env from a folder
+    env = Environment.from_folder(
+        os.path.join(os.path.dirname(__file__), './fixtures/env'))
+
+    _os.listdir.return_value = ['ENABLE_SOMETHING', 'PI', 'SERVER_URI']
+    _io.open.return_value.read.side_effect = [
+        '',
+        IOError,
+        '3.14',
+        'smtp://user@mserver.com:passwd@mserver.com:25',
+        'smtp://user@mserver.com:passwd@mserver.com:25',
+    ]
+
+    # When I try to find the variables, then I see they're there correctly
+    env.get_bool('ENABLE_SOMETHING').should.be.false
+    env.get_bool('ENABLE_SOMETHING_ELSE', True).should.be.true
+    env.get_float('PI').should.equal(3.14)
+    env.get_uri('SERVER_URI').host.should.equal('mserver.com')
+    env.get_uri('SERVER_URI').user.should.equal('user@mserver.com')
+
+
+@patch('envparse.io')
+def test_envparse_environment_from_directory_set(_io):
+    # Given that I load variables to my env from a folder
+    env = Environment.from_folder(
+        os.path.join(os.path.dirname(__file__), './fixtures/env'))
+
+    # When I set some stuff
+    env.set('CITY', 'NEW-YORK')
+
+    # Then I see that we always try to write the file
+    _io.open.return_value.write.assert_called_once_with('NEW-YORK')
