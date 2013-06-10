@@ -3,10 +3,10 @@ from __future__ import unicode_literals
 import io
 import os
 from mock import patch, Mock
-from envparse import Environment
+from milieu import Environment
 
 
-def test_envparse_environment_set():
+def test_milieu_environment_set():
     # Given that I have an empty environment
     env = Environment()
 
@@ -17,7 +17,7 @@ def test_envparse_environment_set():
     env.items().should.contain(('myvar', 'myvalue'))
 
 
-def test_envparse_environment_get():
+def test_milieu_environment_get():
     # Given that I have an environment
     env = Environment({'val1': 'yo'})
 
@@ -25,10 +25,10 @@ def test_envparse_environment_get():
     env.get('val1').should.equal('yo')
 
 
-def test_envparse_environment_get_uri():
+def test_milieu_environment_get_uri():
     # Given that I have an environment with a variable containing a uri
     env = Environment()
-    env.set('githubpage', 'https://clarete:passwd!!@github.com/yipit/envparse')
+    env.set('githubpage', 'https://clarete:passwd!!@github.com/yipit/milieu')
 
     # When I try to get the value as a Uri
     uri = env.get_uri('githubpage')
@@ -39,11 +39,11 @@ def test_envparse_environment_get_uri():
     uri.port.should.equal(None)
     uri.user.should.equal('clarete')
     uri.password.should.equal('passwd!!')
-    uri.path.should.equal('/yipit/envparse')
-    uri.relative_path.should.equal('yipit/envparse')
+    uri.path.should.equal('/yipit/milieu')
+    uri.relative_path.should.equal('yipit/milieu')
 
 
-def test_envparse_environment_get_uri_returning_none():
+def test_milieu_environment_get_uri_returning_none():
     # Given that I have an empty environment
     env = Environment()
 
@@ -55,7 +55,7 @@ def test_envparse_environment_get_uri_returning_none():
     env.get_uri('blah', 'http://yipit.com').host.should.equal('yipit.com')
 
 
-def test_envparse_with_a_real_environment():
+def test_milieu_with_a_real_environment():
     # Given that I have an environment
     env = Environment()
 
@@ -66,7 +66,7 @@ def test_envparse_with_a_real_environment():
     os.environ.get('yo-dawg').should.equal('I heard you like variables')
 
 
-def test_envparse_helper_methods():
+def test_milieu_helper_methods():
     # Given that I have an environment with some variables set
     data = {
         'str': 'I heard you like variables',
@@ -105,8 +105,8 @@ def test_envparse_helper_methods():
     env.get_bool('i-dont-exist', True).should.be.true
 
 
-@patch('envparse.io')
-def test_envparse_environment_from_file(_io):
+@patch('milieu.io')
+def test_milieu_environment_from_file(_io):
     # Given that I load variables to my environment from a file
     _io.open.return_value = io.StringIO('FAVORITE_SUPER_HERO: Batman!')
     env = Environment.from_file('myfile.cfg')
@@ -116,9 +116,9 @@ def test_envparse_environment_from_file(_io):
     env.get('FAVORITE_SUPER_HERO').should.equal('Batman!')
 
 
-@patch('envparse.io')
-@patch('envparse.os')
-def test_envparse_environment_from_directory_items(_os, _io):
+@patch('milieu.io')
+@patch('milieu.os')
+def test_milieu_environment_from_directory_items(_os, _io):
     # Given that I load variables to my env from a folder
     env = Environment.from_folder(
         os.path.join(os.path.dirname(__file__), './fixtures/env'))
@@ -138,9 +138,9 @@ def test_envparse_environment_from_directory_items(_os, _io):
     ])
 
 
-@patch('envparse.io')
-@patch('envparse.os')
-def test_envparse_environment_from_directory_get(_os, _io):
+@patch('milieu.io')
+@patch('milieu.os')
+def test_milieu_environment_from_directory_get(_os, _io):
     # Given that I load variables to my env from a folder
     env = Environment.from_folder(
         os.path.join(os.path.dirname(__file__), './fixtures/env'))
@@ -162,8 +162,8 @@ def test_envparse_environment_from_directory_get(_os, _io):
     env.get_uri('SERVER_URI').user.should.equal('user@mserver.com')
 
 
-@patch('envparse.io')
-def test_envparse_environment_from_directory_set(_io):
+@patch('milieu.io')
+def test_milieu_environment_from_directory_set(_io):
     # Given that I load variables to my env from a folder
     env = Environment.from_folder(
         os.path.join(os.path.dirname(__file__), './fixtures/env'))
@@ -175,9 +175,9 @@ def test_envparse_environment_from_directory_set(_io):
     _io.open.return_value.write.assert_called_once_with('NEW-YORK')
 
 
-@patch('envparse.io')
-@patch('envparse.os')
-def test_envparse_environment_from_directory_set(_os, _io):
+@patch('milieu.io')
+@patch('milieu.os')
+def test_milieu_environment_from_directory_set(_os, _io):
     # Given that I have a folder environment with an item `CITY`
     env = Environment.from_folder('./path')
     env.set('CITY', 'NEW-YORK')

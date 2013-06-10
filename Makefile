@@ -5,7 +5,7 @@
 # are going to be used to update this file automatically.
 #
 # <variables>
-PACKAGE=envparse
+PACKAGE=milieu
 CUSTOM_PIP_INDEX=localshop
 # </variables>
 
@@ -58,7 +58,7 @@ updatedoc:
 	@steadymark && \
 	git branch -D gh-pages && \
 	git checkout --orphan gh-pages && \
-	markment -o . -t modernist --sitemap-for="http://yipit.github.io/envparse" && \
+	markment -o . -t modernist --sitemap-for="http://yipit.github.io/milieu" && \
 	git add . && \
 	git commit -am 'documentation' &>/dev/null && \
 	git push --force origin gh-pages && \

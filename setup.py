@@ -40,7 +40,7 @@ install_requires, dependency_links = parse_requirements()
 
 if __name__ == '__main__':
     setup(
-        name='envparse',
+        name='milieu',
         version='0.0.3',
         description=(
             "A helping hand to manage your settings among "
