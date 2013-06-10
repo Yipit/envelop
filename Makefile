@@ -58,7 +58,7 @@ updatedoc:
 	@steadymark && \
 	git branch -D gh-pages && \
 	git checkout --orphan gh-pages && \
-	markment -o . -t modernist --sitemap-for="http://yipit.github.io/milieu" && \
+	markment -o . -t modernist --sitemap-for="http://tech.yipit.com/milieu" && \
 	git add . && \
 	git commit -am 'documentation' &>/dev/null && \
 	git push --force origin gh-pages && \
