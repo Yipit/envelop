@@ -61,3 +61,31 @@ BOOL_FLAG: True
 
 FLOAT_VAL: 3.14
 ```
+
+## From a folder
+
+You can also load variables from a folder where each file will be an
+environment variable and the file's content will be the value. Just like
+[envdir](http://cr.yp.to/daemontools/envdir.html).
+
+Now, for an example. Consider that you have the folder `/etc/envdir/app` and
+this folder contains the file `MYSQL_CONN_URI` with a database URL inside of
+it. Just like this one here: `mysql://root:secret@localhost:3306/mydb`.
+
+To read that directory and load the variable properly, you just have to do the
+following:
+
+```python
+# steadymark:ignore
+>>> from milieu import Environment
+>>> env = Environment.from_folder('/etc/envdir/app')
+>>> uri = env.get_uri('MYSQL_CONN_URI')
+>>> uri.host
+'localhost'
+>>> uri.port
+3306
+>>> uri.user
+'root'
+>>> uri.password
+'secret'
+```
