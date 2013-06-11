@@ -65,7 +65,10 @@ def test_milieu_environment_get_uri_returning_none():
     env = Environment()
 
     # When I try to get a uri variable that doesn't exist, then I get None
-    env.get_uri('blah').should.be.none
+    env.get_uri.when.called_with('blah').should.throw(
+        RuntimeError,
+        'there is no such environment variable as \033[0;33m`blah`\033[0m'
+    )
 
     # And When I try to get a variable that doesn't exist but I provide a
     # default value, it will be returned instead of none
@@ -194,7 +197,7 @@ def test_milieu_environment_from_directory_set(_io):
 
 @patch('milieu.io')
 @patch('milieu.os')
-def test_milieu_environment_from_directory_set(_os, _io):
+def test_milieu_environment_from_directory_del(_os, _io):
     # Given that I have a folder environment with an item `CITY`
     env = Environment.from_folder('./path')
     env.set('CITY', 'NEW-YORK')
