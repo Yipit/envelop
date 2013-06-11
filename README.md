@@ -89,3 +89,31 @@ following:
 >>> uri.password
 'secret'
 ```
+
+# Hacking on it
+
+## Install dev dependencies
+
+```console
+pip install -r requirements-dev.txt
+```
+
+## Run tests
+
+```console
+make test
+```
+
+## Change it
+
+Make sure you write tests for your new features and keep the test coverage in 100%
+
+## Release it
+
+After you already made your commits, run:
+
+```console
+make release
+```
+
+follow the instructions and do the [harlem shake](http://www.youtube.com/watch?v=8vJiSSAMNWw)
