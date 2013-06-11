@@ -49,7 +49,7 @@ install_deps:
 
 	@if [ -z $$SKIP_DEPS ]; then \
 		echo "Installing missing dependencies..."; \
-		[ -e development.txt  ] && pip install -r development.txt &> .install.log; \
+		[ -e requirements-dev.txt  ] && pip install -r requirements-dev.txt &> .install.log; \
 	fi
 
 	@python setup.py develop &> .build.log

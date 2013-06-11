@@ -1,0 +1,5 @@
+couleur==0.5.0
+distribute==0.6.31
+misaka==1.0.2
+python-termstyle==0.1.10
+PyYAML==3.10
