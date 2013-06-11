@@ -22,6 +22,8 @@ import os
 import urlparse
 import yaml
 
+version = __version__ = '0.0.4'
+
 
 class FolderStorage(dict):
     def __init__(self, path):

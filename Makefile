@@ -9,7 +9,7 @@ PACKAGE=milieu
 CUSTOM_PIP_INDEX=
 # </variables>
 
-all: unit functional integration acceptance steadymark
+test: unit functional integration acceptance steadymark
 
 unit:
 	@make run_test suite=unit
@@ -82,3 +82,11 @@ publish:
 		echo "Read more about it here: https://github.com/Yipit/yipit/blob/dev/docs/rfc/RFC00007-python-packages.md"; \
 		exit 1; \
 	fi
+
+release: test
+	@./.release
+	@python setup.py sdist register upload
+	@git add `find_files`
+	@git commit -am "New release: $newversion"
+	@git tag $newversion
+	@git push --tags
