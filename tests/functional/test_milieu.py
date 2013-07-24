@@ -51,6 +51,15 @@ def test_milieu_environment_from_directory():
     env.get_uri('SERVER_URI').user.should.equal('user@mserver.com')
 
 
+def test_milieu_environment_from_directory_that_does_not_exist():
+    # When I try to load the environment from a folder that does not exist,
+    # Then I see that I receive an OSError
+    (Environment.from_folder.when.called_with('something-that-does-not-exist')
+     .should.throw(
+         OSError,
+         'The path `something-that-does-not-exist` does not exist'))
+
+
 def test_milieu_environment_from_directory_set():
     # Given that I load variables to my env from a folder
     path = os.path.join(os.path.dirname(__file__), './fixtures/env')

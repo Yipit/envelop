@@ -27,6 +27,9 @@ version = __version__ = '0.0.5'
 
 class FolderStorage(dict):
     def __init__(self, path):
+        # We won't do anything before making sure it's a folder
+        if not os.path.isdir(path):
+            raise OSError('The path `{0}` does not exist'.format(path))
         self.path = path
 
     def _open(self, name, mode='r'):

@@ -183,6 +183,7 @@ def test_milieu_environment_from_directory_get(_os, _io):
 
 
 @patch('milieu.io')
+@patch('milieu.os.path.isdir', lambda *a: True)
 def test_milieu_environment_from_directory_set(_io):
     # Given that I load variables to my env from a folder
     env = Environment.from_folder(
