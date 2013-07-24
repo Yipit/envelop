@@ -101,7 +101,7 @@ class Environment(object):
     def get_uri(self, name, default=None):
         uri = self.storage.get(name, default)
         if not uri:
-            raise RuntimeError('there is no such environment variable as \033[0;33m`{0}`\033[0m'.format(name))
+            return uri
 
         obj = urlparse.urlparse(uri)
 
