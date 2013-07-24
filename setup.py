@@ -67,7 +67,7 @@ if __name__ == '__main__':
         long_description=local_file('README.md'),
         author=u'Lincoln de Sousa',
         author_email=u'lincoln@yipit.com',
-        url='https://github.com/Yipit/hangy',
+        url='https://github.com/Yipit/milieu',
         packages=find_packages(exclude=['*tests*']),
         install_requires=install_requires,
         dependency_links=dependency_links,
