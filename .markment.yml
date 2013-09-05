@@ -1,6 +1,6 @@
 project:
   name: Milieu
-  version: 0.1.1
+  version: 0.1.2
   description: A helping hand to manage your settings among different environments
 
   github_maintainer: clarete

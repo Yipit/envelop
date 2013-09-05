@@ -60,7 +60,7 @@ install_requires, dependency_links = parse_requirements()
 if __name__ == '__main__':
     setup(
         name='milieu',
-        version='0.1.1',
+        version='0.1.2',
         description=(
             "A helping hand to manage your settings among "
             "different environments"),
