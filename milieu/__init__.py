@@ -22,7 +22,7 @@ import os
 import urlparse
 import yaml
 
-version = __version__ = '0.1.2'
+version = __version__ = '0.1.3'
 
 
 class FolderStorage(dict):
