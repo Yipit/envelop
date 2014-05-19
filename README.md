@@ -20,10 +20,12 @@ The system environment is the first place **milieu** will try to find
 things. So, when the application runs inside of an environment with the right
 variables set, it will just work.
 
-So, if you know you have the environment variable `DATABASE_URI` like this:
+So, if you know you have environment variables
+`DATABASE_URI` and `ALLOWED_IPS` like this:
 
 ```bash
 $ export DATABASE_URI=mysql://root@localhost:3306/mydb
+$ export ALLOWED_IPS=10.0.0.1,10.0.0.2
 ```
 
 The application settings glue code will look like this:
@@ -37,6 +39,8 @@ The application settings glue code will look like this:
 u'localhost'
 >>> dburi.port
 3306
+>>> env.get_list('ALLOWED_IPS')
+['10.0.0.1', '10.0.0.2']
 ```
 
 ## Local
@@ -88,14 +92,6 @@ following:
 'root'
 >>> uri.password
 'secret'
-```
-
-Sometimes you need a list of values that come from an environment variable:
-
-```python
-# steadymark:ignore
->>> env.get_list('ALLOWED_IPS')
-['10.0.0.1', '10.0.0.2']
 ```
 
 # Hacking on it
