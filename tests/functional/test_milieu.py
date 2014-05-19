@@ -38,6 +38,7 @@ def test_milieu_environment_from_directory():
 
     # When I try to list all the variables inside of that folder
     sorted(env.items(), key=lambda x: x[0]).should.equal([
+        ('ALLOWED_IPS', '10.0.0.1,10.0.0.2'),
         ('ENABLE_SOMETHING', u''),
         ('PI', u'3.14'),
         ('SERVER_URI', u'smtp://user@mserver.com:passwd@mserver.com:25'),

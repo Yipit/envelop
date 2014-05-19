@@ -96,6 +96,7 @@ def test_milieu_helper_methods():
         'bool4': 'False',
         'bool5': 'false',
         'bool6': '0',
+        'list': 'foo,bar,baz'
     }
     env = Environment(storage=data)
 
@@ -109,6 +110,7 @@ def test_milieu_helper_methods():
     env.get_bool('bool4').should.be.false
     env.get_bool('bool5').should.be.false
     env.get_bool('bool6').should.be.false
+    env.get_list('list').should.equal(['foo', 'bar', 'baz'])
 
     # Sanity checks
     env.get_int.when.called_with('str').should.throw(ValueError)

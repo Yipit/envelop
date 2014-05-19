@@ -114,3 +114,6 @@ class Environment(object):
         while obj.relative_path and obj.relative_path[0] == '/':
             obj.relative_path = obj.relative_path[1:]
         return obj
+
+    def get_list(self, name, failobj=None, separator=','):
+        return self.get(name, failobj).split(separator)
