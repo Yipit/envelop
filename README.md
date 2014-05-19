@@ -90,6 +90,14 @@ following:
 'secret'
 ```
 
+Sometimes you need a list of values that come from an environment variable:
+
+```python
+# steadymark:ignore
+>>> env.get_list('ALLOWED_IPS')
+['10.0.0.1', '10.0.0.2']
+```
+
 # Hacking on it
 
 ## Install dev dependencies
