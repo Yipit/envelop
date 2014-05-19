@@ -12,7 +12,7 @@ update_files (){
     for file in `find_files`;
     do
         printf "Changing file \033[33m$file\033[0m... ";
-        gsed -i "s,$current_version,$newversion,g" $file;
+        perl -pi -e "s,$current_version,$newversion,g" $file;
         printf "\rChanged file \033[32m$file\033[0m: OK\n";
     done;
 }
