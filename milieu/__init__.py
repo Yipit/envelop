@@ -98,6 +98,7 @@ class Environment(object):
         except ValueError:
             return val == 'true'
 
+    # FIXME: every other function uses `failobj` rather than `default`
     def get_uri(self, name, default=None):
         uri = self.storage.get(name, default)
         if not uri:
