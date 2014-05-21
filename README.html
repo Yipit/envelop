@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>envelop</title>
+
+    <link rel="stylesheet" href="./assets/stylesheets/styles.css">
+    <link rel="stylesheet" href="./assets/stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>envelop</h1>
+        <p>A helping hand to manage your settings among different environments</p>
+        <p class="view"><a href="http://github.com/Yipit/envelop">View the Project on GitHub <small>clarete/envelop</small></a></p>
+        
+        <ul>
+          <li><a href="https://github.com/Yipit/envelop/archive/master.zip">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Yipit/envelop/archive/master.tar.gz">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="http://github.com/Yipit/envelop">View On <strong>GitHub</strong></a></li>
+        </ul>
+        
+      </header>
+      <section><p>A helping hand to manage your settings among different environments</p>
+<h2 id="intro" name="intro"><a href="#intro">Intro</a></h2>
+<p>Managing application configuration that runs on multiple environments
+can be tough. So, <strong>envelop</strong> comes to help you pretend you have only one
+settings file that magically works whenever you deploy.</p>
+
+<p>Here at Yipit, we use Chef to coordinate the deploy process and to maintain the
+configuration, using attributes or data bags.</p>
+
+<p>After that, we use <a href="http://cr.yp.to/daemontools/envdir.html">envdir</a>
+to run our applications with variables set in Chef. Then, we use
+<strong>envelop</strong> to read those variables and feed the application configuration
+system.</p>
+<h2 id="production" name="production"><a href="#production">Production</a></h2>
+<p>The system environment is the first place <strong>envelop</strong> will try to find
+things. So, when the application runs inside of an environment with the right
+variables set, it will just work.</p>
+
+<p>So, if you know you have environment variables
+<code>DATABASE_URI</code> and <code>ALLOWED_IPS</code> like this:</p>
+<div class="highlight"><pre name="intro-example-1"><span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_URI</span><span class="o">=</span>mysql://root@localhost:3306/mydb
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">ALLOWED_IPS</span><span class="o">=</span>10.0.0.1,10.0.0.2
+</pre></div>
+
+<p>The application settings glue code will look like this:</p>
+<div class="highlight"><pre name="intro-example-2"><span class="c"># steadymark:ignore</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">envelop</span> <span class="kn">import</span> <span class="n">Environment</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dburi</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get_uri</span><span class="p">(</span><span class="s">'DATABASE_URI'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dburi</span><span class="o">.</span><span class="n">host</span>
+<span class="s">u'localhost'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dburi</span><span class="o">.</span><span class="n">port</span>
+<span class="mi">3306</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">env</span><span class="o">.</span><span class="n">get_list</span><span class="p">(</span><span class="s">'ALLOWED_IPS'</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'10.0.0.1'</span><span class="p">,</span> <span class="s">'10.0.0.2'</span><span class="p">]</span>
+</pre></div>
+<h2 id="local" name="local"><a href="#local">Local</a></h2>
+<p>If you just want to load things from a file locally, the
+<code>Environment.from_file()</code> constructor will help you out.</p>
+<div class="highlight"><pre name="intro-example-3"><span class="c"># steadymark:ignore</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">envelop</span> <span class="kn">import</span> <span class="n">Environment</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s">'/etc/app.cfg'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">env</span><span class="o">.</span><span class="n">get_bool</span><span class="p">(</span><span class="s">'BOOL_FLAG'</span><span class="p">)</span>
+<span class="bp">True</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">env</span><span class="o">.</span><span class="n">get_float</span><span class="p">(</span><span class="s">'FLOAT_VAL'</span><span class="p">)</span>
+<span class="mf">3.14</span>
+</pre></div>
+
+<p>The file <code>app.cfg</code> will look like this:</p>
+<div class="highlight"><pre name="intro-example-4"><span class="l-Scalar-Plain">BOOL_FLAG</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">True</span>
+
+<span class="l-Scalar-Plain">FLOAT_VAL</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">3.14</span>
+</pre></div>
+<h2 id="from-a-folder" name="from-a-folder"><a href="#from-a-folder">From a folder</a></h2>
+<p>You can also load variables from a folder, where each file will be an
+environment variable and the file&#39;s content will be the value. Just like
+<a href="http://cr.yp.to/daemontools/envdir.html">envdir</a>.</p>
+
+<p>Now, say that you have the folder <code>/etc/envdir/app</code> and this folder contains
+the file <code>MYSQL_CONN_URI</code> with a database URL inside of it. Just like this one
+here: <code>mysql://root:secret@localhost:3306/mydb</code>.</p>
+
+<p>To read that directory and load the variable properly, you just have to do the
+following:</p>
+<div class="highlight"><pre name="intro-example-5"><span class="c"># steadymark:ignore</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">envelop</span> <span class="kn">import</span> <span class="n">Environment</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="o">.</span><span class="n">from_folder</span><span class="p">(</span><span class="s">'/etc/envdir/app'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get_uri</span><span class="p">(</span><span class="s">'MYSQL_CONN_URI'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">uri</span><span class="o">.</span><span class="n">host</span>
+<span class="s">'localhost'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">uri</span><span class="o">.</span><span class="n">port</span>
+<span class="mi">3306</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">uri</span><span class="o">.</span><span class="n">user</span>
+<span class="s">'root'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">uri</span><span class="o">.</span><span class="n">password</span>
+<span class="s">'secret'</span>
+</pre></div>
+<h1 id="hacking-on-it" name="hacking-on-it"><a href="#hacking-on-it">Hacking on it</a></h1><h2 id="install-dev-dependencies" name="install-dev-dependencies"><a href="#install-dev-dependencies">Install dev dependencies</a></h2><div class="highlight"><pre name="hacking-on-it-example-1"><span class="go">pip install -r requirements-dev.txt</span>
+</pre></div>
+<h2 id="run-tests" name="run-tests"><a href="#run-tests">Run tests</a></h2><div class="highlight"><pre name="hacking-on-it-example-2"><span class="go">make test</span>
+</pre></div>
+<h2 id="change-it" name="change-it"><a href="#change-it">Change it</a></h2>
+<p>Make sure you write tests for your new features and keep the test coverage in 100%</p>
+<h2 id="release-it" name="release-it"><a href="#release-it">Release it</a></h2>
+<p>After you already made your commits, run:</p>
+<div class="highlight"><pre name="hacking-on-it-example-3"><span class="go">make release</span>
+</pre></div>
+
+<p>follow the instructions and do the <a href="http://www.youtube.com/watch?v=8vJiSSAMNWw">harlem shake</a></p>
+
+        <hr />
+        <h3>Table of contents</h3>
+        
+        <p style="margin:0"><a class="toc" href="./README.html">README.md</a></p>
+        
+
+      </section>
+
+    </div>
+    <footer>
+      <p>Project maintained by <a href="http://github.com/Yipit">clarete</a></p>
+      <p>Project generated with <a href="http://octomarks.io/gabrielfalcao/markment">markment</a></p>
+    </footer>
+    <script src="./assets/javascripts/scale.fix.js"></script>
+  </body>
+</html>

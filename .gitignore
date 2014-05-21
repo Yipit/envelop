@@ -1,0 +1,10 @@
+*~
+*.pyc
+.coverage
+*.egg-info/
+dist/
+.tox/
+.DS_Store
+.build.log
+.install.log
+build/
