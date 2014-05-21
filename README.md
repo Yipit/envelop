@@ -121,3 +121,8 @@ make release
 ```
 
 follow the instructions and do the [harlem shake](http://www.youtube.com/watch?v=8vJiSSAMNWw)
+
+
+## Project Name
+
+This project was called "Milieu" before, and we renamed it to "Envelop" on May 21st, 2014.
