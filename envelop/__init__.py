@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# milieu - Environment variables manager
+# envelop - Environment variables manager
 #
 # Copyright (c) 2013  Yipit, Inc <coders@yipit.com>
 #

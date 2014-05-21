@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# milieu - Environment variables manager
+# envelop - Environment variables manager
 #
 # Copyright (c) 2013  Yipit, Inc <coders@yipit.com>
 #
@@ -17,13 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
-from milieu import Environment
+from envelop import Environment
 from mock import patch
 import io
 import os
 
 
-def test_milieu_environment_set():
+def test_envelop_environment_set():
     # Given that I have an empty environment
     env = Environment()
 
@@ -34,7 +34,7 @@ def test_milieu_environment_set():
     env.items().should.contain(('myvar', 'myvalue'))
 
 
-def test_milieu_environment_get():
+def test_envelop_environment_get():
     # Given that I have an environment
     env = Environment({'val1': 'yo'})
 
@@ -42,10 +42,10 @@ def test_milieu_environment_get():
     env.get('val1').should.equal('yo')
 
 
-def test_milieu_environment_get_uri():
+def test_envelop_environment_get_uri():
     # Given that I have an environment with a variable containing a uri
     env = Environment()
-    env.set('githubpage', 'https://clarete:passwd!!@github.com/yipit/milieu')
+    env.set('githubpage', 'https://clarete:passwd!!@github.com/yipit/envelop')
 
     # When I try to get the value as a Uri
     uri = env.get_uri('githubpage')
@@ -56,11 +56,11 @@ def test_milieu_environment_get_uri():
     uri.port.should.equal(None)
     uri.user.should.equal('clarete')
     uri.password.should.equal('passwd!!')
-    uri.path.should.equal('/yipit/milieu')
-    uri.relative_path.should.equal('yipit/milieu')
+    uri.path.should.equal('/yipit/envelop')
+    uri.relative_path.should.equal('yipit/envelop')
 
 
-def test_milieu_environment_get_uri_returning_none():
+def test_envelop_environment_get_uri_returning_none():
     # Given that I have an empty environment
     env = Environment()
 
@@ -72,7 +72,7 @@ def test_milieu_environment_get_uri_returning_none():
     env.get_uri('blah', 'http://yipit.com').host.should.equal('yipit.com')
 
 
-def test_milieu_with_a_real_environment():
+def test_envelop_with_a_real_environment():
     # Given that I have an environment
     env = Environment()
 
@@ -83,7 +83,7 @@ def test_milieu_with_a_real_environment():
     os.environ.get('yo-dawg').should.equal('I heard you like variables')
 
 
-def test_milieu_helper_methods():
+def test_envelop_helper_methods():
     # Given that I have an environment with some variables set
     data = {
         'str': 'I heard you like variables',
@@ -124,8 +124,8 @@ def test_milieu_helper_methods():
     env.get_bool('i-dont-exist', True).should.be.true
 
 
-@patch('milieu.io')
-def test_milieu_environment_from_file(_io):
+@patch('envelop.io')
+def test_envelop_environment_from_file(_io):
     # Given that I load variables to my environment from a file
     _io.open.return_value = io.StringIO('FAVORITE_SUPER_HERO: Batman!')
     env = Environment.from_file('myfile.cfg')
@@ -135,9 +135,9 @@ def test_milieu_environment_from_file(_io):
     env.get('FAVORITE_SUPER_HERO').should.equal('Batman!')
 
 
-@patch('milieu.io')
-@patch('milieu.os')
-def test_milieu_environment_from_directory_items(_os, _io):
+@patch('envelop.io')
+@patch('envelop.os')
+def test_envelop_environment_from_directory_items(_os, _io):
     # Given that I load variables to my env from a folder
     env = Environment.from_folder(
         os.path.join(os.path.dirname(__file__), './fixtures/env'))
@@ -157,9 +157,9 @@ def test_milieu_environment_from_directory_items(_os, _io):
     ])
 
 
-@patch('milieu.io')
-@patch('milieu.os')
-def test_milieu_environment_from_directory_get(_os, _io):
+@patch('envelop.io')
+@patch('envelop.os')
+def test_envelop_environment_from_directory_get(_os, _io):
     # Given that I load variables to my env from a folder
     env = Environment.from_folder(
         os.path.join(os.path.dirname(__file__), './fixtures/env'))
@@ -181,9 +181,9 @@ def test_milieu_environment_from_directory_get(_os, _io):
     env.get_uri('SERVER_URI').user.should.equal('user@mserver.com')
 
 
-@patch('milieu.io')
-@patch('milieu.os.path.isdir', lambda *a: True)
-def test_milieu_environment_from_directory_set(_io):
+@patch('envelop.io')
+@patch('envelop.os.path.isdir', lambda *a: True)
+def test_envelop_environment_from_directory_set(_io):
     # Given that I load variables to my env from a folder
     env = Environment.from_folder(
         os.path.join(os.path.dirname(__file__), './fixtures/env'))
@@ -195,9 +195,9 @@ def test_milieu_environment_from_directory_set(_io):
     _io.open.return_value.write.assert_called_once_with('NEW-YORK')
 
 
-@patch('milieu.io')
-@patch('milieu.os')
-def test_milieu_environment_from_directory_del(_os, _io):
+@patch('envelop.io')
+@patch('envelop.os')
+def test_envelop_environment_from_directory_del(_os, _io):
     # Given that I have a folder environment with an item `CITY`
     env = Environment.from_folder('./path')
     env.set('CITY', 'NEW-YORK')

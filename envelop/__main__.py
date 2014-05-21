@@ -1,5 +1,5 @@
 import argparse
-from milieu import Environment
+from envelop import Environment
 
 def main():
     parser = argparse.ArgumentParser(description='Manage your environment.')
@@ -37,5 +37,5 @@ def main():
 
 if __name__ == '__main__':
     # Module interface, you can use this function by calling this module using
-    # the module launcher of python: `python -m milieu`
+    # the module launcher of python: `python -m envelop`
     print(main() or '')

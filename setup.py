@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# milieu - Environment variables manager
+# envelop - Environment variables manager
 #
 # Copyright (c) 2013  Yipit, Inc <coders@yipit.com>
 #
@@ -59,7 +59,7 @@ install_requires, dependency_links = parse_requirements()
 
 if __name__ == '__main__':
     setup(
-        name='milieu',
+        name='envelop',
         version='0.2.0',
         description=(
             "A helping hand to manage your settings among "
@@ -67,7 +67,7 @@ if __name__ == '__main__':
         long_description=local_file('README.md'),
         author=u'Lincoln de Sousa',
         author_email=u'lincoln@yipit.com',
-        url='https://github.com/Yipit/milieu',
+        url='https://github.com/Yipit/envelop',
         packages=find_packages(exclude=['*tests*']),
         install_requires=install_requires,
         dependency_links=dependency_links,

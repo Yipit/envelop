@@ -1,5 +1,5 @@
 project:
-  name: Milieu
+  name: envelop
   version: 0.2.0
   description: A helping hand to manage your settings among different environments
 
@@ -7,10 +7,10 @@ project:
   github_maintainer_url: http://github.com/Yipit
   github_maintainer_gravatar: https://secure.gravatar.com/avatar/71d3153d7509755e2f6453580e9acde3?s=420
 
-  github_url: http://github.com/Yipit/milieu
-  github_fork_url: https://github.com/Yipit/milieu/archive/master.tar.gz
-  tarball_download_url: https://github.com/Yipit/milieu/archive/master.tar.gz
-  zipball_download_url: https://github.com/Yipit/milieu/archive/master.zip
+  github_url: http://github.com/Yipit/envelop
+  github_fork_url: https://github.com/Yipit/envelop/archive/master.tar.gz
+  tarball_download_url: https://github.com/Yipit/envelop/archive/master.tar.gz
+  zipball_download_url: https://github.com/Yipit/envelop/archive/master.zip
 
 documentation:
   index: README.md
