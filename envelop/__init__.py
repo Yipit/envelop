@@ -18,7 +18,7 @@
 
 from __future__ import unicode_literals
 from six.moves.urllib.parse import urlparse
-from builtins import str as text
+from six import text_type
 import io
 import os
 import yaml
@@ -50,7 +50,7 @@ class FolderStorage(dict):
 
     def __setitem__(self, name, value):
         super(FolderStorage, self).__setitem__(
-            name, self._open(name, 'w').write(text(value)))
+            name, self._open(name, 'w').write(text_type(value)))
 
     def __delitem__(self, name):
         os.unlink(os.path.join(self.path, name))
@@ -93,7 +93,7 @@ class Environment(object):
         return float(self.get(name, failobj))
 
     def get_bool(self, name, failobj=None):
-        val = text(self.get(name, failobj)).lower()
+        val = text_type(self.get(name, failobj)).lower()
         try:
             return bool(int(val))
         except ValueError:
