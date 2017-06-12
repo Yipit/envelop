@@ -1,7 +1,10 @@
-import commands
+from future import standard_library
+standard_library.install_aliases()
+
+import subprocess
 
 # Aliasing to avoid typing and caching the dot resolution
-run = commands.getoutput
+run = subprocess.getoutput
 
 
 def test_get():
