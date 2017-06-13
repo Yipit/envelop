@@ -120,6 +120,6 @@ make release
 follow the instructions and do the [harlem shake](http://www.youtube.com/watch?v=8vJiSSAMNWw)
 
 
-## Project Name
+## Project history
 
-This project was called "Milieu" before, and we renamed it to "Envelop" on May 21st, 2014.
+This project was started by [Lincoln de Sousa](https://github.com/clarete) and was called ["Milieu"](https://github.com/clarete/milieu). We renamed it to "Envelop" on May 21st, 2014.

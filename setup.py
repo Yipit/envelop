@@ -65,8 +65,8 @@ if __name__ == '__main__':
             "A helping hand to manage your settings among "
             "different environments"),
         long_description=local_file('README.md'),
-        author=u'Lincoln de Sousa',
-        author_email=u'lincoln@yipit.com',
+        author=u'Yipit Coders',
+        author_email=u'coders@yipitdata.com',
         url='https://github.com/Yipit/envelop',
         packages=find_packages(exclude=['*tests*']),
         install_requires=install_requires,
