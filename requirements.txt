@@ -1,4 +1,2 @@
-misaka>=1.0.2
-python-termstyle>=0.1.10
 PyYAML>=3.10
 six>=1.10.0
