@@ -17,9 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
+from six.moves.urllib.parse import urlparse
+from six import text_type
 import io
 import os
-import urlparse
 import yaml
 
 version = __version__ = '0.2.0'
@@ -49,7 +50,7 @@ class FolderStorage(dict):
 
     def __setitem__(self, name, value):
         super(FolderStorage, self).__setitem__(
-            name, self._open(name, 'w').write(unicode(value)))
+            name, self._open(name, 'w').write(text_type(value)))
 
     def __delitem__(self, name):
         os.unlink(os.path.join(self.path, name))
@@ -92,7 +93,7 @@ class Environment(object):
         return float(self.get(name, failobj))
 
     def get_bool(self, name, failobj=None):
-        val = unicode(self.get(name, failobj)).lower()
+        val = text_type(self.get(name, failobj)).lower()
         try:
             return bool(int(val))
         except ValueError:
@@ -104,17 +105,26 @@ class Environment(object):
         if not uri:
             return uri
 
-        obj = urlparse.urlparse(uri)
+        obj = urlparse(uri)
 
-        # Our internal aliases
-        obj.host = obj.hostname
-        obj.user = obj.username
-        obj.relative_path = obj.path
+        # Parse result class using our internal aliases for some fields
+        class CustomParseResult(object):
+            def __init__(self, parse_result):
+                self.scheme = parse_result.scheme
+                self.host = parse_result.hostname
+                self.port = parse_result.port
+                self.user = parse_result.username
+                self.password = parse_result.password
+                self.path = parse_result.path
+                # Cleaning up the relative_path variable
+                relative_path = parse_result.path
+                while relative_path and relative_path[0] == '/':
+                    relative_path = relative_path[1:]
+                self.relative_path = relative_path
 
-        # Cleaning up the relative_path variable
-        while obj.relative_path and obj.relative_path[0] == '/':
-            obj.relative_path = obj.relative_path[1:]
-        return obj
+        result = CustomParseResult(obj)
+
+        return result
 
     def get_list(self, name, failobj=None, separator=','):
         return self.get(name, failobj).split(separator)
