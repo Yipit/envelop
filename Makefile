@@ -31,7 +31,7 @@ run_test:
 	@if [ -d tests/$(suite) ]; then \
 		echo "Running \033[0;32m$(suite)\033[0m test suite"; \
 		make prepare && \
-			nosetests --rednose --stop \
+			PYTHONPATH=. nosetests --rednose --stop \
 				--with-coverage --cover-package=$(PACKAGE) --cover-branches \
 				--verbosity=2 -s tests/$(suite) ; \
 	fi
@@ -46,8 +46,6 @@ install_deps:
 		echo "Installing missing dependencies..."; \
 		[ -e requirements-dev.txt  ] && pip install -r requirements-dev.txt &> .install.log; \
 	fi
-
-	@python setup.py develop &> .build.log
 
 updatedoc:
 	git branch -D gh-pages && \
