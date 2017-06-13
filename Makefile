@@ -9,7 +9,7 @@ PACKAGE=envelop
 CUSTOM_PIP_INDEX=
 # </variables>
 
-test: unit functional integration acceptance steadymark
+test: unit functional integration acceptance
 
 unit:
 	@make run_test suite=unit
@@ -23,11 +23,6 @@ integration:
 acceptance:
 	@if hash lettuce 2>/dev/null; then \
 		lettuce; \
-	fi
-
-steadymark:
-	@if hash steadymark 2>/dev/null; then \
-		steadymark; \
 	fi
 
 prepare: clean install_deps
@@ -55,7 +50,6 @@ install_deps:
 	@python setup.py develop &> .build.log
 
 updatedoc:
-	@steadymark && \
 	git branch -D gh-pages && \
 	git checkout --orphan gh-pages && \
 	markment -o . -t modernist --sitemap-for="http://tech.yipit.com/envelop" && \

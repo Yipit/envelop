@@ -31,7 +31,6 @@ $ export ALLOWED_IPS=10.0.0.1,10.0.0.2
 The application settings glue code will look like this:
 
 ```python
-# steadymark:ignore
 >>> from envelop import Environment
 >>> env = Environment()
 >>> dburi = env.get_uri('DATABASE_URI')
@@ -49,7 +48,6 @@ If you just want to load things from a file locally, the
 `Environment.from_file()` constructor will help you out.
 
 ```python
-# steadymark:ignore
 >>> from envelop import Environment
 >>> env = Environment.from_file('/etc/app.cfg')
 >>> env.get_bool('BOOL_FLAG')
@@ -80,7 +78,6 @@ To read that directory and load the variable properly, you just have to do the
 following:
 
 ```python
-# steadymark:ignore
 >>> from envelop import Environment
 >>> env = Environment.from_folder('/etc/envdir/app')
 >>> uri = env.get_uri('MYSQL_CONN_URI')
