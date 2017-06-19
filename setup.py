@@ -60,7 +60,7 @@ install_requires, dependency_links = parse_requirements()
 if __name__ == '__main__':
     setup(
         name='envelop',
-        version='0.2.0',
+        version='0.3.0',
         description=(
             "A helping hand to manage your settings among "
             "different environments"),
