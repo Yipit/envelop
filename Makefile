@@ -44,7 +44,7 @@ install_deps:
 
 	@if [ -z $$SKIP_DEPS ]; then \
 		echo "Installing missing dependencies..."; \
-		[ -e requirements-dev.txt  ] && pip install -r requirements-dev.txt &> .install.log; \
+		[ -e requirements-dev.txt  ] && pip install -q -r requirements-dev.txt; \
 	fi
 
 updatedoc:
@@ -52,7 +52,7 @@ updatedoc:
 	git checkout --orphan gh-pages && \
 	markment -o . -t modernist --sitemap-for="http://tech.yipit.com/envelop" && \
 	git add . && \
-	git commit -am 'documentation' &>/dev/null && \
+	git commit -am 'documentation' && \
 	git push --force origin gh-pages && \
 	git checkout master
 
