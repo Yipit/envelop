@@ -9,7 +9,7 @@ PACKAGE=envelop
 CUSTOM_PIP_INDEX=
 # </variables>
 
-test: unit functional integration acceptance
+test: unit functional coverage
 
 unit:
 	@make run_test suite=unit
@@ -17,13 +17,8 @@ unit:
 functional:
 	@make run_test suite=functional
 
-integration:
-	@make run_test suite=integration
-
-acceptance:
-	@if hash lettuce 2>/dev/null; then \
-		lettuce; \
-	fi
+coverage: prepare
+	PYTHONPATH=. py.test -x --cov envelop --cov-branch --cov-report=term-missing -vvv tests/
 
 prepare: clean install_deps
 
@@ -31,7 +26,7 @@ run_test:
 	@if [ -d tests/$(suite) ]; then \
 		echo "Running \033[0;32m$(suite)\033[0m test suite"; \
 		make prepare && \
-			PYTHONPATH=. py.test -x --cov envelop --cov-branch --cov-report=term-missing -vvv tests/$(suite) ; \
+			PYTHONPATH=. py.test -x -vvv tests/$(suite) ; \
 	fi
 
 install_deps:
