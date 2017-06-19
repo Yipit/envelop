@@ -18,8 +18,8 @@
 
 from __future__ import unicode_literals
 from envelop import Environment
-from nose.tools import assert_raises
 import os
+import pytest
 
 
 def test_envelop_environment_from_file():
@@ -56,7 +56,8 @@ def test_envelop_environment_from_directory():
 def test_envelop_environment_from_directory_that_does_not_exist():
     # When I try to load the environment from a folder that does not exist,
     # Then I see that I receive an OSError
-    assert_raises(OSError, Environment.from_folder, 'something-that-does-not-exist')
+    with pytest.raises(OSError):
+        Environment.from_folder('something-that-does-not-exist')
 
 
 def test_envelop_environment_from_directory_set():

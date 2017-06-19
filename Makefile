@@ -31,9 +31,7 @@ run_test:
 	@if [ -d tests/$(suite) ]; then \
 		echo "Running \033[0;32m$(suite)\033[0m test suite"; \
 		make prepare && \
-			PYTHONPATH=. nosetests --rednose --stop \
-				--with-coverage --cover-package=$(PACKAGE) --cover-branches \
-				--verbosity=2 -s tests/$(suite) ; \
+			PYTHONPATH=. py.test -x --cov envelop --cov-branch --cov-report=term-missing -vvv tests/$(suite) ; \
 	fi
 
 install_deps:

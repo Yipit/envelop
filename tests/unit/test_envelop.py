@@ -19,9 +19,9 @@
 from __future__ import unicode_literals
 from envelop import Environment
 from mock import patch
-from nose.tools import assert_raises
 import io
 import os
+import pytest
 
 
 def test_envelop_environment_set():
@@ -114,8 +114,10 @@ def test_envelop_helper_methods():
     assert env.get_list('list') == ['foo', 'bar', 'baz']
 
     # Sanity checks
-    assert_raises(ValueError, env.get_int, 'str')
-    assert_raises(ValueError, env.get_float, 'str')
+    with pytest.raises(ValueError):
+        env.get_int('str')
+    with pytest.raises(ValueError):
+        env.get_float('str')
     assert env.get_bool('str') is False
 
     # Testing default values
