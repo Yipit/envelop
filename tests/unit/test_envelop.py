@@ -146,7 +146,7 @@ def test_envelop_environment_from_directory_items(_os, _io):
         os.path.join(os.path.dirname(__file__), './fixtures/env'))
 
     _os.listdir.return_value = ['ENABLE_SOMETHING', 'PI', 'SERVER_URI']
-    _io.open.return_value.read.side_effect = [
+    _io.open.return_value.__enter__.return_value.read.side_effect = [
         '',
         '3.14',
         'smtp://user@mserver.com:passwd@mserver.com:25',
@@ -168,7 +168,7 @@ def test_envelop_environment_from_directory_get(_os, _io):
         os.path.join(os.path.dirname(__file__), './fixtures/env'))
 
     _os.listdir.return_value = ['ENABLE_SOMETHING', 'PI', 'SERVER_URI']
-    _io.open.return_value.read.side_effect = [
+    _io.open.return_value.__enter__.return_value.read.side_effect = [
         '',
         IOError,
         '3.14',
@@ -195,7 +195,7 @@ def test_envelop_environment_from_directory_set(_io):
     env.set('CITY', 'NEW-YORK')
 
     # Then I see that we always try to write the file
-    _io.open.return_value.write.assert_called_once_with('NEW-YORK')
+    _io.open.return_value.__enter__.return_value.write.assert_called_once_with('NEW-YORK')
 
 
 @patch('envelop.io')

@@ -42,15 +42,19 @@ class FolderStorage(dict):
             # time, we just have to cache the modified data when we open the
             # file and compare with the current time when we need the file
             # again.
-            super(FolderStorage, self).__setitem__(
-                name, self._open(name).read().strip())
-            return self[name]
+            with self._open(name) as f:
+                result = f.read().strip()
         except IOError:
             return failobj
+        else:
+            super(FolderStorage, self).__setitem__(name, result)
+            return self[name]
+
 
     def __setitem__(self, name, value):
-        super(FolderStorage, self).__setitem__(
-            name, self._open(name, 'w').write(text_type(value)))
+        with self._open(name, 'w') as f:
+            result = f.write(text_type(value))
+        super(FolderStorage, self).__setitem__(name, result)
 
     def __delitem__(self, name):
         os.unlink(os.path.join(self.path, name))
