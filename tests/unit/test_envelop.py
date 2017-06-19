@@ -19,6 +19,7 @@
 from __future__ import unicode_literals
 from envelop import Environment
 from mock import patch
+from nose.tools import assert_raises
 import io
 import os
 
@@ -31,7 +32,7 @@ def test_envelop_environment_set():
     env.set('myvar', 'myvalue')
 
     # I'll be able to get it properly
-    env.items().should.contain(('myvar', 'myvalue'))
+    assert ('myvar', 'myvalue') in env.items()
 
 
 def test_envelop_environment_get():
@@ -39,7 +40,7 @@ def test_envelop_environment_get():
     env = Environment({'val1': 'yo'})
 
     # When I set something
-    env.get('val1').should.equal('yo')
+    assert env.get('val1') == 'yo'
 
 
 def test_envelop_environment_get_uri():
@@ -51,13 +52,13 @@ def test_envelop_environment_get_uri():
     uri = env.get_uri('githubpage')
 
     # Then I see things working
-    uri.scheme.should.equal('https')
-    uri.host.should.equal('github.com')
-    uri.port.should.equal(None)
-    uri.user.should.equal('clarete')
-    uri.password.should.equal('passwd!!')
-    uri.path.should.equal('/yipit/envelop')
-    uri.relative_path.should.equal('yipit/envelop')
+    assert uri.scheme == 'https'
+    assert uri.host == 'github.com'
+    assert uri.port is None
+    assert uri.user == 'clarete'
+    assert uri.password == 'passwd!!'
+    assert uri.path == '/yipit/envelop'
+    assert uri.relative_path == 'yipit/envelop'
 
 
 def test_envelop_environment_get_uri_returning_none():
@@ -65,11 +66,11 @@ def test_envelop_environment_get_uri_returning_none():
     env = Environment()
 
     # When I try to get a uri variable that doesn't exist, then I get None
-    env.get_uri('blah').should.be.none
+    assert env.get_uri('blah') is None
 
     # And When I try to get a variable that doesn't exist but I provide a
     # default value, it will be returned instead of none
-    env.get_uri('blah', 'http://yipit.com').host.should.equal('yipit.com')
+    assert env.get_uri('blah', 'http://yipit.com').host == 'yipit.com'
 
 
 def test_envelop_with_a_real_environment():
@@ -80,7 +81,7 @@ def test_envelop_with_a_real_environment():
     env.set('yo-dawg', 'I heard you like variables')
 
     # Then I see that it was set in the actual environment
-    os.environ.get('yo-dawg').should.equal('I heard you like variables')
+    assert os.environ.get('yo-dawg') == 'I heard you like variables'
 
 
 def test_envelop_helper_methods():
@@ -101,27 +102,27 @@ def test_envelop_helper_methods():
     env = Environment(storage=data)
 
     # Let's retrieve things with their correct types
-    env.get_int('int').should.equal(42)
-    env.get_float('float').should.equal(3.14)
-    env.get_bool('bool0').should.be.true
-    env.get_bool('bool1').should.be.true
-    env.get_bool('bool2').should.be.true
-    env.get_bool('bool3').should.be.true
-    env.get_bool('bool4').should.be.false
-    env.get_bool('bool5').should.be.false
-    env.get_bool('bool6').should.be.false
-    env.get_list('list').should.equal(['foo', 'bar', 'baz'])
+    assert env.get_int('int') == 42
+    assert env.get_float('float') == 3.14
+    assert env.get_bool('bool0') is True
+    assert env.get_bool('bool1') is True
+    assert env.get_bool('bool2') is True
+    assert env.get_bool('bool3') is True
+    assert env.get_bool('bool4') is False
+    assert env.get_bool('bool5') is False
+    assert env.get_bool('bool6') is False
+    assert env.get_list('list') == ['foo', 'bar', 'baz']
 
     # Sanity checks
-    env.get_int.when.called_with('str').should.throw(ValueError)
-    env.get_float.when.called_with('str').should.throw(ValueError)
-    env.get_bool('str').should.be.false
+    assert_raises(ValueError, env.get_int, 'str')
+    assert_raises(ValueError, env.get_float, 'str')
+    assert env.get_bool('str') is False
 
     # Testing default values
-    env.get('i-dont-exist', 'blah').should.equal('blah')
-    env.get_int('i-dont-exist', 2).should.equal(2)
-    env.get_float('i-dont-exist', 2.5).should.equal(2.5)
-    env.get_bool('i-dont-exist', True).should.be.true
+    assert env.get('i-dont-exist', 'blah') == 'blah'
+    assert env.get_int('i-dont-exist', 2) == 2
+    assert env.get_float('i-dont-exist', 2.5) == 2.5
+    assert env.get_bool('i-dont-exist', True) is True
 
 
 @patch('envelop.io')
@@ -132,7 +133,7 @@ def test_envelop_environment_from_file(_io):
 
     # When I try to find a variable defined in that file, then I see that it
     # works
-    env.get('FAVORITE_SUPER_HERO').should.equal('Batman!')
+    assert env.get('FAVORITE_SUPER_HERO') == 'Batman!'
 
 
 @patch('envelop.io')
@@ -150,11 +151,11 @@ def test_envelop_environment_from_directory_items(_os, _io):
     ]
 
     # When I try to list all the variables inside of that folder
-    sorted(env.items(), key=lambda x: x[0]).should.equal([
+    assert sorted(env.items(), key=lambda x: x[0]) == [
         ('ENABLE_SOMETHING', u''),
         ('PI', u'3.14'),
         ('SERVER_URI', u'smtp://user@mserver.com:passwd@mserver.com:25'),
-    ])
+    ]
 
 
 @patch('envelop.io')
@@ -174,11 +175,11 @@ def test_envelop_environment_from_directory_get(_os, _io):
     ]
 
     # When I try to find the variables, then I see they're there correctly
-    env.get_bool('ENABLE_SOMETHING').should.be.false
-    env.get_bool('ENABLE_SOMETHING_ELSE', True).should.be.true
-    env.get_float('PI').should.equal(3.14)
-    env.get_uri('SERVER_URI').host.should.equal('mserver.com')
-    env.get_uri('SERVER_URI').user.should.equal('user@mserver.com')
+    assert env.get_bool('ENABLE_SOMETHING') is False
+    assert env.get_bool('ENABLE_SOMETHING_ELSE', True) is True
+    assert env.get_float('PI') == 3.14
+    assert env.get_uri('SERVER_URI').host == 'mserver.com'
+    assert env.get_uri('SERVER_URI').user == 'user@mserver.com'
 
 
 @patch('envelop.io')

@@ -18,6 +18,7 @@
 
 from __future__ import unicode_literals
 from envelop import Environment
+from nose.tools import assert_raises
 import os
 
 
@@ -28,7 +29,7 @@ def test_envelop_environment_from_file():
 
     # When I try to find a variable defined in that file, then I see that it
     # works
-    env.get('FAVORITE_SUPER_HERO').should.equal('Batman NANANANANA')
+    assert env.get('FAVORITE_SUPER_HERO') == 'Batman NANANANANA'
 
 
 def test_envelop_environment_from_directory():
@@ -37,28 +38,25 @@ def test_envelop_environment_from_directory():
         os.path.join(os.path.dirname(__file__), './fixtures/env'))
 
     # When I try to list all the variables inside of that folder
-    sorted(env.items(), key=lambda x: x[0]).should.equal([
+    assert sorted(env.items(), key=lambda x: x[0]) == [
         ('ALLOWED_IPS', '10.0.0.1,10.0.0.2'),
         ('ENABLE_SOMETHING', u''),
         ('PI', u'3.14'),
         ('SERVER_URI', u'smtp://user@mserver.com:passwd@mserver.com:25'),
-    ])
+    ]
 
     # When I try to find the variables, then I see they're there correctly
-    env.get_bool('ENABLE_SOMETHING').should.be.false
-    env.get_bool('ENABLE_SOMETHING_ELSE', True).should.be.true
-    env.get_float('PI').should.equal(3.14)
-    env.get_uri('SERVER_URI').host.should.equal('mserver.com')
-    env.get_uri('SERVER_URI').user.should.equal('user@mserver.com')
+    assert env.get_bool('ENABLE_SOMETHING') is False
+    assert env.get_bool('ENABLE_SOMETHING_ELSE', True) is True
+    assert env.get_float('PI') == 3.14
+    assert env.get_uri('SERVER_URI').host == 'mserver.com'
+    assert env.get_uri('SERVER_URI').user == 'user@mserver.com'
 
 
 def test_envelop_environment_from_directory_that_does_not_exist():
     # When I try to load the environment from a folder that does not exist,
     # Then I see that I receive an OSError
-    (Environment.from_folder.when.called_with('something-that-does-not-exist')
-     .should.throw(
-         OSError,
-         'The path `something-that-does-not-exist` does not exist'))
+    assert_raises(OSError, Environment.from_folder, 'something-that-does-not-exist')
 
 
 def test_envelop_environment_from_directory_set():
@@ -71,11 +69,11 @@ def test_envelop_environment_from_directory_set():
 
     # Then I see the file was created with the right content
     target = os.path.join(path, 'CITY')
-    os.path.exists(target).should.be.true
+    assert os.path.exists(target)
 
     # And then I see that the value is also right
-    open(target).read().should.equal('NEW-YORK')
+    assert open(target).read() == 'NEW-YORK'
 
     # And then I see that after removing the item, the file will also go away
     del env['CITY']
-    os.path.exists(target).should.be.false
+    assert os.path.exists(target) is False
